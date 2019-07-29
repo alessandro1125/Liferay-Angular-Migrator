@@ -24,3 +24,8 @@ osservare la chiamata al metodo *navigate* nell' app.component.ts
     - app.module.ts
     - app.routing.module.ts
 - package.json
+
+# Conversione progetto
+Esegui il file main.py e segui le indicazioni, goni volta che si apporta una modifica all'interno della cartella src sarà necessario
+rieseguire il file per apportare le modifiche alla struttura della portlet.
+Eseguendo lo script "deploy" (npm run deploy) la portlet verrà deployata all'interno del bundle fornito in configurazione
