@@ -8,7 +8,7 @@ Requisiti
 - Progetto angular versione 6.x
 - Prestare attenzione al nome delle directory di progetto in quanto aluni riferimenti possono risultare non validi
 
-#Note
-Rimappare la struttura del router (providers, UseHash)
-Presenza del file di configurazione
-Rimozione del link al css nei file .html in src/app/
+# Note
+- Rimappare la struttura del router (providers, UseHash)
+-Presenza del file di configurazione
+- Rimozione del link al css nei file .html in src/app/
