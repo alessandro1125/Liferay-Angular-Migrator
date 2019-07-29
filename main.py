@@ -14,7 +14,16 @@ class ModuleCheckProject:
         self.checkPathEnvoirment()
         self.checkAngularVersion()
         self.checkProjectStructure()
-        ModuleUpdateProject(self.envPath)
+        conf = self.checkConfiguration()
+        ModuleUpdateProject(self.envPath, conf)
+
+    def checkConfiguration(self):
+        if os.path.isfile(self.envPath+"config-migr.json"):
+            file = open(self.envPath + "config-migr.json", "r")
+            packText = file.read()
+            confJson = json.loads(packText)
+            return confJson
+        return ""
 
     def getPath(self):
         self.envPath = input("Enter the Angular project path: ")
@@ -90,12 +99,26 @@ class ModuleUpdateProject:
     envPath = ""
     appName = ""
 
-    def __init__(self, envPath):
+    configurated = False
+    configuration = {}
+
+    def __init__(self, envPath, jsonConfig):
+        if jsonConfig != "":
+            self.configurated = True
+        else:
+            jsonConfig = {}
+        self.configuration = jsonConfig
         consoleManager(1, "Updating project structure", 1)
         self.envPath = envPath
         self.updateStructure()
         consoleManager(1, "Elaborating components", 1)
         self.elaborateComponentsApp()
+        self.saveConfiguration()
+
+    def saveConfiguration(self):
+        npmBuildRcFile = open(self.envPath + "config-migr.json", "w")
+        npmBuildRcFile.write(json.dumps(self.configuration))
+        npmBuildRcFile.close()
 
     def updateStructure(self):
         consoleManager(1, "Updating package.json")
@@ -104,7 +127,11 @@ class ModuleUpdateProject:
         file.close()
         packJson = json.loads(packText)
         self.appName = packJson["name"]
-        descriptionImp = input("Enter project description: ")
+        if not self.configurated:
+            descriptionImp = input("Enter project description: ")
+            self.configuration["project_description"] = descriptionImp
+        else:
+            descriptionImp = self.configuration["project_description"]
         packJson["description"] = descriptionImp
         consoleManager(1, "Description added")
         packJson["scripts"]["ng-start"] = packJson["scripts"]["start"]
@@ -116,22 +143,38 @@ class ModuleUpdateProject:
         packJson["scripts"]["build"] = "tsc && npm run copy-assets && liferay-npm-bundler"
         consoleManager(1, "Scripts added")
         consoleManager(1, "Portlet settings")
-        inputText = input("Enter project category: ")
+        if not self.configurated:
+            inputText = input("Enter project category: ")
+            self.configuration["project_category"] = inputText
+        else:
+            inputText = self.configuration["project_category"]
         portletJson = json.loads("{}")
         packJson["portlet"] = portletJson
-        packJson["portlet"]["com.liferay.portlet.display-category"] = inputText
-        inputText = input("Enter project css build path [/css/styles.css]: ")
-        if inputText == "":
-            inputText = "/css/styles.css"
+        if not self.configurated:
+            packJson["portlet"]["com.liferay.portlet.display-category"] = inputText
+            inputText = input("Enter project css build path [/css/styles.css]: ")
+            if inputText == "":
+                inputText = "/css/styles.css"
+            self.configuration["css_path"] = inputText
+        else:
+            inputText = self.configuration["css_path"]
         packJson["portlet"]["com.liferay.portlet.header-portlet-css"] = inputText
-        inputText = input("Instanceable? type true or false [true]: ")
-        if inputText == "":
-            inputText = "true"
+        if not self.configurated:
+            inputText = input("Instanceable? type true or false [true]: ")
+            if inputText == "":
+                inputText = "true"
+            self.configuration["istanceable"] = inputText
+        else:
+            inputText = self.configuration["istanceable"]
         instanceable = True
         if inputText != "true":
             instanceable = False
         packJson["portlet"]["com.liferay.portlet.instanceable"] = instanceable
-        inputText = input("Enter portlet name: ")
+        if not self.configurated:
+            inputText = input("Enter portlet name: ")
+            self.configuration["portlet_name"] = inputText
+        else:
+            inputText = self.configuration["portlet_name"]
         packJson["portlet"]["javax.portlet.name"] = inputText
         packJson["portlet"]["javax.portlet.security-role-ref"] = "power-user,user"
         packJson["portlet"]["javax.portlet.resource-bundle"] = "content.Language"
@@ -175,10 +218,14 @@ class ModuleUpdateProject:
         npmBuildRc = json.loads("{}")
         npmBuildRc["translatorTextKey"] = ""
         npmBuildRc["supportedLocales"] = []
-        inputText = input("Insert your bundle workspace path [.../bundles]")
-        if inputText == "":
-            inputText = "C:\\liferay_workspace\\Bundles-work\\Bundle_1\\Workspace\\bundles"
-        inputText.replace("/", "\\")
+        if not self.configurated:
+            inputText = input("Insert your bundle workspace path [.../bundles]")
+            if inputText == "":
+                inputText = "C:\\liferay_workspace\\Bundles-work\\Bundle_1\\Workspace\\bundles"
+            inputText.replace("/", "\\")
+            self.configuration["bundle_workspace"] = inputText
+        else:
+            inputText = self.configuration["bundle_workspace"]
         npmBuildRc["liferayDir"] = inputText
         npmBuildRc["webpack"] = {
             "rules": [
@@ -233,13 +280,14 @@ class ModuleUpdateProject:
 
         consoleManager(1, "Configuring app bootstrap module", 1)
         consoleManager(2, "Your app.module.ts will be updated")
-        cont = input("continue? [Y/N]")
-        if cont != "Y" and cont != "y":
-            exit(4)
-        consoleManager(2, "Please remove ALL from your Bootstrap", 1)
-        cont = input("Have you done it? [Y/N]")
-        if cont != "Y" and cont != "y":
-            exit(4)
+        if not self.configurated:
+            cont = input("continue? [Y/N]")
+            if cont != "Y" and cont != "y":
+                exit(4)
+            consoleManager(2, "Please remove ALL from your Bootstrap", 1)
+            cont = input("Have you done it? [Y/N]")
+            if cont != "Y" and cont != "y":
+                exit(4)
         checkFile(self.envPath + "src/app/app.module.ts")
         file = open(self.envPath + "src/app/app.module.ts", "r")
         text = file.read()
