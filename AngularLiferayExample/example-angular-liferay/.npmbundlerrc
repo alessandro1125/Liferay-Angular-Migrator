@@ -1,0 +1,1 @@
+{"create-jar": {"output-dir": "dist", "features": {"js-extender": true, "web-context": "/example-angular-liferay"}}, "dump-report": true, "process-serially": true}

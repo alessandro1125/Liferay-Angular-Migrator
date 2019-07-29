@@ -251,9 +251,8 @@ class ModuleUpdateProject:
             "output-dir": "dist",
             "features": {
                 "js-extender": True,
-                "web-context": "/" + self.appName,
-                "localization": "features/localization/Language",
-                "configuration": "features/configuration.json"
+                "web-context": "/" + self.appName
+
             }
         }
         npmBundlerRc["dump-report"] = True

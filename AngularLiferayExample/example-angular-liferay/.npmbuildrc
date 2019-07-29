@@ -1,0 +1,1 @@
+{"translatorTextKey": "", "supportedLocales": [], "liferayDir": "C:\\liferay_workspace\\Bundles-work\\Bundle_3\\bundles", "webpack": {"rules": [{"test": "src\\\\.*\\.ts$", "use": "ts-loader"}], "extensions": [".ts", ".js"], "mainModule": "index.ts"}}
