@@ -11,6 +11,7 @@ import { Test3Component } from './test3/test3.component';
 
 @NgModule({
 
+
 entryComponents: [AppComponent],
 
   declarations: [
@@ -25,6 +26,7 @@ entryComponents: [AppComponent],
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/'}],
   bootstrap: []
+
 
 
 })

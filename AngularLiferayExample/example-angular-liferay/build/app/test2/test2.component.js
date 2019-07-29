@@ -19,8 +19,7 @@ Liferay.Loader.define("example-angular-liferay@0.0.0/app/test2/test2.component",
         Test2Component.prototype.ngOnInit = function () {};
         Test2Component = __decorate([core_1.Component({
             selector: 'app-test2',
-            templateUrl: '/o/example-angular-liferay/app/test2/test2.component.html',
-            styleUrls: ['./test2.component.css']
+            templateUrl: '/o/example-angular-liferay/app/test2/test2.component.html'
         }), __metadata("design:paramtypes", [])], Test2Component);
         return Test2Component;
     }();

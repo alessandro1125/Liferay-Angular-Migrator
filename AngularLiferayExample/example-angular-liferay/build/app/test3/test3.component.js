@@ -19,8 +19,7 @@ Liferay.Loader.define("example-angular-liferay@0.0.0/app/test3/test3.component",
         Test3Component.prototype.ngOnInit = function () {};
         Test3Component = __decorate([core_1.Component({
             selector: 'app-test3',
-            templateUrl: '/o/example-angular-liferay/app/test3/test3.component.html',
-            styleUrls: ['./test3.component.css']
+            templateUrl: '/o/example-angular-liferay/app/test3/test3.component.html'
         }), __metadata("design:paramtypes", [])], Test3Component);
         return Test3Component;
     }();
