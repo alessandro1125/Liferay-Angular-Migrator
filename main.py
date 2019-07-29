@@ -28,7 +28,7 @@ class ModuleCheckProject:
     def getPath(self):
         self.envPath = input("Enter the Angular project path: ")
         if self.envPath == "":
-            self.envPath = "C:\\liferay_workspace\\angular-pyton-tools\\test-tool\\tmp_projects\\question-project"
+            self.envPath = "C:\\liferay_workspace\\question-projects\\question-project-reb"
 
     def checkPathEnvoirment(self):
         self.envPath = self.envPath.replace("\\", "/")
@@ -150,8 +150,8 @@ class ModuleUpdateProject:
             inputText = self.configuration["project_category"]
         portletJson = json.loads("{}")
         packJson["portlet"] = portletJson
+        packJson["portlet"]["com.liferay.portlet.display-category"] = inputText
         if not self.configurated:
-            packJson["portlet"]["com.liferay.portlet.display-category"] = inputText
             inputText = input("Enter project css build path [/css/styles.css]: ")
             if inputText == "":
                 inputText = "/css/styles.css"

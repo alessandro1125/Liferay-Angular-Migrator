@@ -10,5 +10,6 @@ Requisiti
 
 # Note
 - Rimappare la struttura del router (providers, UseHash)
--Presenza del file di configurazione
+- Presenza del file di configurazione
 - Rimozione del link al css nei file .html in src/app/
+- Redirect iniziale manuale
